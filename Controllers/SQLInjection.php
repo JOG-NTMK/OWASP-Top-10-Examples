@@ -30,7 +30,8 @@ class SQLInjection
      */
     public function rawConcat(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $userId = $args['id'];
+        $queryParams = $request->getQueryParams();
+        $userId = $args['id'] ?? $queryParams['id'];
 
         $DB = $this->container->get('db');
 
@@ -53,13 +54,14 @@ class SQLInjection
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function pdoQuote(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function addSlashes(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $userId = $args['id'];
+        $queryParams = $request->getQueryParams();
+        $userId = $args['id'] ?? $queryParams['id'];
 
         $DB = $this->container->get('db');
         //quote string and escape special characters
-        $userId = $DB->quote($userId);
+        $userId = addslashes($userId);
         $stmt = $DB->query('SELECT * from posts where user_id = ' . $userId);
         $stmt->execute();
         $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -81,7 +83,8 @@ class SQLInjection
      */
     public function pdoPrepare(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
-        $userId = $args['id'];
+        $queryParams = $request->getQueryParams();
+        $userId = $args['id'] ?? $queryParams['id'];
 
         $DB = $this->container->get('db');
         //user parameter binding to add value to query

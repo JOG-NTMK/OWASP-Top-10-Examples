@@ -35,9 +35,12 @@ AppFactory::setContainer($container);
 $app = AppFactory::create();
 
 $app->get('/v1/user/{id}/posts', [SQLInjection::class ,'rawConcat']);
+$app->get('/v1/user/posts', [SQLInjection::class ,'rawConcat']);
 
-$app->get('/v2/user/{id}/posts', [SQLInjection::class ,'pdoQuote']);
+$app->get('/v2/user/{id}/posts', [SQLInjection::class , 'addSlashes']);
+$app->get('/v2/user/posts', [SQLInjection::class , 'addSlashes']);
 
 $app->get('/v3/user/{id}/posts', [SQLInjection::class ,'pdoPrepare']);
+$app->get('/v3/user/posts', [SQLInjection::class ,'pdoPrepare']);
 
 $app->run();
