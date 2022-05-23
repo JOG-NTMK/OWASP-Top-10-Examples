@@ -47,5 +47,15 @@ services:
       - ./docker/mysql/init:/docker-entrypoint-initdb.d
       - my-db:/var/lib/mysql
 
+  python-webserver:
+    container_name: python-webserver
+    build:
+      context: ./docker/python-webserver
+    ports:
+      - '8081:8081'
+    depends_on:
+      - php
+
+
 volumes:
   my-db:

@@ -1,6 +1,7 @@
 <?php
 
 use Controllers\SQLInjection;
+use Controllers\SSRF;
 use DI\Container;
 use Slim\Factory\AppFactory;
 
@@ -42,5 +43,9 @@ $app->get('/v2/user/posts', [SQLInjection::class , 'addSlashes']);
 
 $app->get('/v3/user/{id}/posts', [SQLInjection::class ,'pdoPrepare']);
 $app->get('/v3/user/posts', [SQLInjection::class ,'pdoPrepare']);
+
+$app->get('/v1/downloadPDF', [SSRF::class ,'noRestrictions']);
+$app->get('/v2/downloadPDF', [SSRF::class ,'noRestrictionsBlind']);;
+$app->get('/v3/downloadPDF', [SSRF::class ,'blacklist']);
 
 $app->run();
