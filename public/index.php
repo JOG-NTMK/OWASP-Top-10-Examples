@@ -1,9 +1,11 @@
 <?php
 
+use Controllers\ErrorHandling;
 use Controllers\SQLInjection;
 use Controllers\SSRF;
 use DI\Container;
 use Slim\Factory\AppFactory;
+use Slim\Middleware\ErrorMiddleware;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -35,6 +37,22 @@ AppFactory::setContainer($container);
 
 $app = AppFactory::create();
 
+$debugErrorHandler = new ErrorMiddleware(
+    $app->getCallableResolver(),
+    $app->getResponseFactory(),
+    true,
+    true,
+    true
+);
+
+$prodErrorHandler = new ErrorMiddleware(
+    $app->getCallableResolver(),
+    $app->getResponseFactory(),
+    false,
+    true,
+    true
+);
+
 $app->get('/v1/user/{id}/posts', [SQLInjection::class ,'rawConcat']);
 $app->get('/v1/user/posts', [SQLInjection::class ,'rawConcat']);
 
@@ -47,5 +65,10 @@ $app->get('/v3/user/posts', [SQLInjection::class ,'pdoPrepare']);
 $app->get('/v1/downloadPDF', [SSRF::class ,'noRestrictions']);
 $app->get('/v2/downloadPDF', [SSRF::class ,'noRestrictionsBlind']);;
 $app->get('/v3/downloadPDF', [SSRF::class ,'blacklist']);
+
+
+$app->get('/v1/error', [ErrorHandling::class ,'raw']);
+$app->get('/v2/error', [ErrorHandling::class ,'debug'])->addMiddleware($debugErrorHandler);
+$app->get('/v3/error', [ErrorHandling::class ,'clean'])->addMiddleware($prodErrorHandler);
 
 $app->run();
