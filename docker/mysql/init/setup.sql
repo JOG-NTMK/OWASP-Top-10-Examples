@@ -18,10 +18,10 @@ CREATE TABLE `posts` (
     FOREIGN KEY (user_id) REFERENCES users(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `users` VALUES (1,'Blaze','Prohaska','jwunsch','cd54c46f688daef7d06a9a5d97161c8a008c6883'),
-                           (2,'Stacy','Swift','melisa.willms','c550631abff8b274a075c8e0b4975e80b721e491'),
-                           (3,'Louie','Hessel','dmaggio','6761e731dab5567a23f7bbf647deae2663a2161e'),
-                           (4,'Wava','Schumm','raquel50','4fd80d913f8aa076aea9515b4b286f4579042c48'),
+INSERT INTO `users` VALUES (1,'Blaze','Prohaska','jwunsch','5baa61e4c9b93f3f0682250b6cf8331b7ee68fd8'),
+                           (2,'Stacy','Swift','melisa.willms','fcb948d8fb11e678b05ce9c587ea74785a875045'),
+                           (3,'Louie','Hessel','dmaggio','e5e9fa1ba31ecd1ae84f75caaa474f3a663f05f4'),
+                           (4,'Wava','Schumm','raquel50','b1b3773a05c0ed0176787a4f1574ff0075f7521e'),
                            (5,'Filomena','DuBuque','mabernathy','5a411f39ed0383a11a6c4eaedf2449fda122e972');
 
 INSERT INTO `posts` VALUES (1,'magnam','Sunt id voluptate sint velit numquam quae. Molestiae deleniti ut maxime labore debitis hic. Qui dolores maiores suscipit qui natus nesciunt eum. Rerum nobis impedit vel in sunt facilis.',1),
